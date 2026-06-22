@@ -1,0 +1,54 @@
+{
+  "name": "Pipeline error event Simulator",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://shamitapatil.app.n8n.cloud/webhook-test/pipeline-failure",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"pipeline_id\": \"supplier_xml_ingestion_pipeline\",\n  \"status\": \"FAILED\",\n  \"log\": \"[2026-02-14 07:15:02] INFO - DAG started: supplier_xml_ingestion_pipeline\\n[2026-02-14 07:15:04] INFO - Connecting to SFTP source: supplier_feed_prod\\n[2026-02-14 07:15:06] INFO - SFTP authentication successful\\n\\n[2026-02-14 07:15:08] INFO - Navigating to remote directory: /daily_feeds/xml/\\n[2026-02-14 07:15:10] INFO - Searching for expected file: supplier_catalog_20260214.xml\\n\\n[2026-02-14 07:15:12] WARNING - Expected XML file not found in source directory\\n[2026-02-14 07:15:14] INFO - Retrying file discovery (attempt 1)\\n[2026-02-14 07:15:18] WARNING - File still unavailable on source system\\n\\n[2026-02-14 07:15:20] INFO - Checking archive directory for delayed file delivery\\n[2026-02-14 07:15:22] ERROR - XML file missing from both primary and archive locations\\n\\n[2026-02-14 07:15:24] INFO - Triggering fallback validation process\\n[2026-02-14 07:15:26] ERROR - Ingestion halted due to missing source XML input\\n\\n[2026-02-14 07:15:28] INFO - Updating monitoring dashboard status\\n[2026-02-14 07:15:30] ERROR - DAG FAILED: supplier_xml_ingestion_pipeline\\n\\nSTACKTRACE:\\nTraceback (most recent call last):\\nFile \\\"sftp_ingestion_runner.py\\\", line 102, in execute_pipeline\\nFile \\\"xml_file_checker.py\\\", line 57, in validate_source_file\\nFileNotFoundError: supplier_catalog_20260214.xml not found on SFTP source\\n\\n[2026-02-14 07:15:33] INFO - Sending pipeline failure notification\\n[2026-02-14 07:15:35] INFO - Pipeline execution ended with status: FAILED\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "40a0110a-f584-4570-9401-b73b6863df5d",
+      "name": "Test Input Trigger 2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://shamitapatil.app.n8n.cloud/webhook-test/pipeline-failure",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"pipeline_id\": \"customer_etl_pipeline\",\n  \"status\": \"FAILED\",\n  \"log\": \"[2026-01-23 10:01:12] INFO - DAG started: customer_etl_pipeline\\n[2026-01-23 10:01:13] INFO - Extracting data from source API: customer_db_v2\\n[2026-01-23 10:01:15] INFO - API connection successful (200 OK)\\n\\n[2026-01-23 10:01:18] INFO - Reading CSV file: customers_2026_01.csv\\n[2026-01-23 10:01:20] WARNING - Missing optional column: middle_name\\n\\n[2026-01-23 10:01:25] INFO - Schema validation started\\n[2026-01-23 10:01:26] ERROR - Schema mismatch detected\\nExpected column: age\\nFound: NULL\\n\\n[2026-01-23 10:01:27] ERROR - Data type mismatch in column 'age'\\nString value found instead of integer\\n\\n[2026-01-23 10:01:28] INFO - Retrying transformation step (attempt 1)\\n[2026-01-23 10:01:30] ERROR - Transformation failed due to invalid schema mapping\\n\\n[2026-01-23 10:01:32] INFO - Loading data into warehouse: snowflake_dw\\n[2026-01-23 10:01:33] ERROR - Load failed: NOT NULL constraint violated in column customer_id\\n\\n[2026-01-23 10:01:35] INFO - Rolling back transaction\\n[2026-01-23 10:01:36] ERROR - DAG FAILED: customer_etl_pipeline\\n\\nSTACKTRACE:\\nTraceback (most recent call last):\\nFile \\\"etl_runner.py\\\", line 88, in run_pipeline\\nFile \\\"schema_validator.py\\\", line 45, in validate_schema\\nValueError: Column mismatch detected\\n\\n[2026-01-23 10:01:38] INFO - Sending failure alert to monitoring system\\n[2026-01-23 10:01:40] INFO - Pipeline execution ended with status: FAILED\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -80,
+        -32
+      ],
+      "id": "460e9552-24cd-4ee5-93a4-3879ffd064be",
+      "name": "Test Input Trigger 1"
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1efb132c-8915-4e3b-9710-98a5a9fc7068",
+  "meta": {
+    "instanceId": "3c9816333a097a3926bba504f765d8be5331c2b903f4cefdbdc2faf9c96b3e53"
+  },
+  "id": "PPaSqDZG55DFs6vQ",
+  "tags": []
+}

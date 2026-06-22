@@ -1,0 +1,155 @@
+{
+  "name": "Workflow 1 - Historical Incident Loader",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -96
+      ],
+      "id": "e5ee63ca-bdb5-4d2b-87b9-49ec07f2c64e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9954ec5a-eee3-45fa-a052-d8e83a8d3c43",
+              "name": "historical_incidents",
+              "value": "[   {     \"incident_id\": \"INC-1001\",     \"root_cause\": \"Schema mismatch after upstream schema update\",     \"resolution\": \"Updated ETL mapping\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"ETL\",     \"system\": \"Airflow\"   },   {     \"incident_id\": \"INC-1002\",     \"root_cause\": \"FTP XML file missing from source system\",     \"resolution\": \"Requested source resend\",     \"severity\": \"MEDIUM\",     \"pipeline_type\": \"XML Ingestion\",     \"system\": \"SFTP\"   },   {     \"incident_id\": \"INC-1003\",     \"root_cause\": \"API timeout during customer ingestion\",     \"resolution\": \"Increased API retry timeout\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"API Ingestion\",     \"system\": \"REST API\"   },   {     \"incident_id\": \"INC-1004\",     \"root_cause\": \"Duplicate incremental load due to watermark failure\",     \"resolution\": \"Reset watermark table\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"Incremental Load\",     \"system\": \"PostgreSQL\"   },   {     \"incident_id\": \"INC-1005\",     \"root_cause\": \"CSV delimiter changed from comma to pipe\",     \"resolution\": \"Updated parser configuration\",     \"severity\": \"MEDIUM\",     \"pipeline_type\": \"CSV Processing\",     \"system\": \"ETL Parser\"   },   {     \"incident_id\": \"INC-1006\",     \"root_cause\": \"XML tag missing in upstream payload\",     \"resolution\": \"Added null handling logic\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"XML Validation\",     \"system\": \"XML Parser\"   },   {     \"incident_id\": \"INC-1007\",     \"root_cause\": \"Airflow DAG dependency failure\",     \"resolution\": \"Restarted upstream DAG\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"Workflow Orchestration\",     \"system\": \"Airflow\"   },   {     \"incident_id\": \"INC-1008\",     \"root_cause\": \"Database connection pool exhausted\",     \"resolution\": \"Increased connection pool size\",     \"severity\": \"CRITICAL\",     \"pipeline_type\": \"Database Load\",     \"system\": \"PostgreSQL\"   },   {     \"incident_id\": \"INC-1009\",     \"root_cause\": \"Source API rate limit exceeded\",     \"resolution\": \"Added exponential retry logic\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"API Extraction\",     \"system\": \"External API\"   },   {     \"incident_id\": \"INC-1010\",     \"root_cause\": \"Null values detected in mandatory fields\",     \"resolution\": \"Added pre-validation checks\",     \"severity\": \"MEDIUM\",     \"pipeline_type\": \"Data Quality\",     \"system\": \"Validation Engine\"   },   {     \"incident_id\": \"INC-1011\",     \"root_cause\": \"SFTP authentication key expired\",     \"resolution\": \"Rotated SSH credentials\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"File Transfer\",     \"system\": \"SFTP\"   },   {     \"incident_id\": \"INC-1012\",     \"root_cause\": \"Downstream warehouse table locked\",     \"resolution\": \"Cleared blocking transactions\",     \"severity\": \"CRITICAL\",     \"pipeline_type\": \"Warehouse Load\",     \"system\": \"Snowflake\"   },   {     \"incident_id\": \"INC-1013\",     \"root_cause\": \"Unexpected schema drift in customer table\",     \"resolution\": \"Updated schema registry\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"Schema Validation\",     \"system\": \"Kafka\"   },   {     \"incident_id\": \"INC-1014\",     \"root_cause\": \"Daily source file delivered with corrupted encoding\",     \"resolution\": \"Requested UTF-8 compliant file\",     \"severity\": \"MEDIUM\",     \"pipeline_type\": \"File Processing\",     \"system\": \"Batch Loader\"   },   {     \"incident_id\": \"INC-1015\",     \"root_cause\": \"Primary key duplication detected during merge\",     \"resolution\": \"Applied deduplication logic\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"Merge Operation\",     \"system\": \"Data Warehouse\"   },   {     \"incident_id\": \"INC-1016\",     \"root_cause\": \"Disk space exhausted on ETL worker node\",     \"resolution\": \"Cleaned temporary files and expanded storage\",     \"severity\": \"CRITICAL\",     \"pipeline_type\": \"Infrastructure\",     \"system\": \"Linux Server\"   },   {     \"incident_id\": \"INC-1017\",     \"root_cause\": \"SSL certificate expired for source API\",     \"resolution\": \"Renewed SSL certificate\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"API Connectivity\",     \"system\": \"HTTPS API\"   },   {     \"incident_id\": \"INC-1018\",     \"root_cause\": \"Incorrect date format in incoming CSV file\",     \"resolution\": \"Updated date parsing configuration\",     \"severity\": \"MEDIUM\",     \"pipeline_type\": \"CSV Parsing\",     \"system\": \"Parser Engine\"   },   {     \"incident_id\": \"INC-1019\",     \"root_cause\": \"Kafka consumer lag exceeded threshold\",     \"resolution\": \"Scaled consumer instances\",     \"severity\": \"HIGH\",     \"pipeline_type\": \"Streaming Pipeline\",     \"system\": \"Kafka\"   },   {     \"incident_id\": \"INC-1020\",     \"root_cause\": \"Memory overflow during transformation process\",     \"resolution\": \"Optimized Spark transformation logic\",     \"severity\": \"CRITICAL\",     \"pipeline_type\": \"Big Data Processing\",     \"system\": \"Spark\"   } ]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        -96
+      ],
+      "id": "ac16dad1-2865-4bac-a8ab-612e46ed6d5c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const incidents = $json.historical_incidents;\n\nreturn incidents.map(incident => {\n  return {\n    json: incident\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -96
+      ],
+      "id": "995a9494-b38a-418d-bc08-80c45f3de7c5",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=YOUR_GEMINI_API_KEY",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"models/text-embedding-004\",\n  \"content\": {\n    \"parts\": [\n      {\n        \"text\": \"{{$json.root_cause}}\"\n      }\n    ]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        288,
+        -96
+      ],
+      "id": "c1ddb255-f9ff-4abf-95c1-508ec9f29d45",
+      "name": "Gemini Embeddings"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_PINECONE_INDEX_HOST/vectors/upsert",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Key",
+              "value": "YOUR_PINECONE_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"vectors\": [\n    {\n      \"id\": \"{{ $(\"Code in JavaScript\").item.json.incident_id }}\",\n      \"values\": {{ JSON.stringify($(\"Gemini Embeddings\").item.json.embedding.values) }},\n      \"metadata\": {\n        \"root_cause\": \"{{ $(\"Code in JavaScript\").item.json.root_cause }}\",\n        \"resolution\": \"{{ $(\"Code in JavaScript\").item.json.resolution }}\",\n        \"severity\": \"{{ $(\"Code in JavaScript\").item.json.severity }}\",\n        \"pipeline_type\": \"{{ $(\"Code in JavaScript\").item.json.pipeline_type }}\",\n        \"system\": \"{{ $(\"Code in JavaScript\").item.json.system }}\"\n      }\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        512,
+        -96
+      ],
+      "id": "e7517cff-9007-4253-a8b8-0bc161993c0b",
+      "name": "Pinecone Upsert"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Gemini Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Embeddings": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7ba3e33f-7136-49cd-a00e-cd29dc6d96a5",
+  "meta": {
+    "instanceId": "3c9816333a097a3926bba504f765d8be5331c2b903f4cefdbdc2faf9c96b3e53"
+  },
+  "id": "2CQ36vciMtClcu2T",
+  "tags": []
+}
