@@ -1,0 +1,18 @@
+[2026-01-23 10:01:12] 
+INFO - DAG started: customer_etl_pipeline\n[2026-01-23 10:01:13] 
+INFO - Extracting data from source API: customer_db_v2\n[2026-01-23 10:01:15] 
+INFO - API connection successful (200 OK)\n\n[2026-01-23 10:01:18] 
+INFO - Reading CSV file: customers_2026_01.csv\n[2026-01-23 10:01:20] 
+WARNING - Missing optional column: middle_name\n\n[2026-01-23 10:01:25] 
+INFO - Schema validation started\n[2026-01-23 10:01:26] ERROR - Schema mismatch detected
+\nExpected column: age\nFound: NULL\n\n[2026-01-23 10:01:27] ERROR - Data type mismatch in column 'age'
+\nString value found instead of integer\n\n[2026-01-23 10:01:28] INFO - Retrying transformation step (attempt 1)
+\n[2026-01-23 10:01:30] ERROR - Transformation failed due to invalid schema mapping\n
+\n[2026-01-23 10:01:32] INFO - Loading data into warehouse: snowflake_dw\n[2026-01-23 10:01:33] 
+ERROR - Load failed: NOT NULL constraint violated in column customer_id\n\n[2026-01-23 10:01:35] 
+INFO - Rolling back transaction\n[2026-01-23 10:01:36] 
+ERROR - DAG FAILED: customer_etl_pipeline\n\nSTACKTRACE:\n
+Traceback (most recent call last):\nFile \"etl_runner.py\", line 88, in run_pipeline
+\nFile \"schema_validator.py\", line 45, in validate_schema
+\nValueError: Column mismatch detected\n\n[2026-01-23 10:01:38] INFO - Sending failure alert to monitoring system
+\n[2026-01-23 10:01:40] INFO - Pipeline execution ended with status: FAILED
