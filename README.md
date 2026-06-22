@@ -177,13 +177,6 @@ Configure the following credentials inside n8n Credential Manager:
 
 ---
 
-## Demo
-
-Demo Video:
-[Add Your Google Drive or YouTube Link Here]
-
----
-
 ## Author
 
 Built as part of the Be10X AI Generalist Hackathon.
